@@ -1,5 +1,3 @@
-/* --== This is the sausage saucer ==-- */
-
 #include <Arduino.h>
 #include <indev/ui/ui.hpp>
 #include <debug/debug.hpp>
@@ -11,7 +9,7 @@ leds led_map;
 void setup()
 {
     SerialUSB.begin(115200);
-    display_init();
+    display_init(HIGH);
     ui_init();
     debug_init();
     ui_create();
