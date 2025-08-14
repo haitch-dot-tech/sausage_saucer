@@ -8,6 +8,8 @@
 
 static uint32_t PROGMEM draw_buf[(DISPLAY_WIDTH * DISPLAY_HEIGHT / 10 * (LV_COLOR_DEPTH / 8)) / 4];
 
+volatile uint32_t lastMillis = 0;
+
 static uint32_t lv_tick(void);
 void touch_read(lv_indev_t *indev, lv_indev_data_t *data);
 void flush_cb(lv_display_t *disp, const lv_area_t *area, uint8_t *px_map);
@@ -32,6 +34,8 @@ void ui_create()
     sauceScreen_create();
     patternScreen_create();
     jobScreen_create();
+
+    ui_changeScreen(sauceScreen);
 }
 
 void ui_changeScreen(lv_obj_t *thisScreen)
@@ -39,9 +43,11 @@ void ui_changeScreen(lv_obj_t *thisScreen)
     lv_screen_load_anim(thisScreen, LV_SCR_LOAD_ANIM_MOVE_LEFT, 500, 0, false);
 }
 
-void ui_update()
+uint32_t ui_update()
 {
     lv_timer_handler();
+    
+    return millis() - lastMillis;
 }
 
 static uint32_t lv_tick(void)
@@ -76,6 +82,8 @@ void touch_read(lv_indev_t *indev, lv_indev_data_t *data)
 
         data->point.x = x;
         data->point.y = y;
+
+        lastMillis = millis();
     }
     else
     {

@@ -36,4 +36,4 @@ LV_FONT_DECLARE(FugazOne48);
 void ui_init();
 void ui_create();
 void ui_changeScreen(lv_obj_t *thisScreen);
-void ui_update();
+uint32_t ui_update();
