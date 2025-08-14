@@ -38,13 +38,13 @@ void setup()
 void loop()
 {
     t = ui_update();
-    if (t > 10000)
-    {
-        display_setBacklight(BL_LOW);
-    }
-    else if (t > 30000)
+    if (t > 30000)
     {
         display_setBacklight(BL_OFF);
+    }
+    else if (t > 10000)
+    {
+        display_setBacklight(BL_LOW);
     }
     else
     {
