@@ -1,12 +1,7 @@
 # Sausage Saucer
-THE sausage saucer for all of your sausage saucing needs
+This repository is the source code for the Sausage Saucer, a machine for all of your sausage in bread sauce applicating needs.
 
 ## Features:
 - Sausage saucing
-- Sausage saucing
-- Sausage saucing
-- Sausage saucing
-- Sausage saucing
-
-### struggles
-- sausage saucing
+- Being expensive
+- Overegineered to the highest level
