@@ -5,17 +5,18 @@
 
 #include <conf.h>
 
-volatile uint32_t t = 0;
+static volatile uint32_t t = 0;
 
-leds led_map;
+static leds led_map;
 
 void setup()
 {
-    SerialUSB.begin(115200);
     display_init();
     display_setBacklight(BL_ON);
-    ui_init();
+
     debug_init();
+
+    ui_init();
     ui_create();
 
     motion_init();
@@ -38,6 +39,7 @@ void setup()
 void loop()
 {
     t = ui_update();
+    
     if (t > 30000)
     {
         display_setBacklight(BL_OFF);

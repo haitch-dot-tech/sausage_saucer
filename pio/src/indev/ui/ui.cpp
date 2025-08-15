@@ -1,6 +1,6 @@
 #include "ui.hpp"
 
-/* Calibration */
+/* Touch calibration data */
 #define X_NEG 226
 #define Y_NEG 385
 #define X_POS 3934
@@ -13,6 +13,7 @@ volatile uint32_t lastMillis = 0;
 static uint32_t lv_tick(void);
 void touch_read(lv_indev_t *indev, lv_indev_data_t *data);
 void flush_cb(lv_display_t *disp, const lv_area_t *area, uint8_t *px_map);
+void buttonCB(int btn);
 
 void ui_init()
 {
@@ -27,6 +28,9 @@ void ui_init()
     lv_indev_t *touch = lv_indev_create();
     lv_indev_set_type(touch, LV_INDEV_TYPE_POINTER);
     lv_indev_set_read_cb(touch, touch_read);
+
+    buttons_init();
+    buttons_setCB(buttonCB);
 }
 
 void ui_create()
@@ -41,6 +45,11 @@ void ui_create()
 void ui_changeScreen(lv_obj_t *thisScreen)
 {
     lv_screen_load_anim(thisScreen, LV_SCR_LOAD_ANIM_MOVE_LEFT, 500, 0, false);
+}
+
+lv_obj_t *ui_getScreen(void)
+{
+    return lv_screen_active();
 }
 
 uint32_t ui_update()
@@ -74,8 +83,6 @@ void touch_read(lv_indev_t *indev, lv_indev_data_t *data)
     uint16_t x = map(xraw, X_NEG, X_POS, 0, 479);
     uint16_t y = map(yraw, Y_NEG, Y_POS, 0, 319);
 
-    SerialUSB.printf("X: %d, Y: %d, Z: %d\n", x, y, zraw);
-
     if (zraw != 0)
     {
         data->state = LV_INDEV_STATE_PRESSED;
@@ -88,5 +95,26 @@ void touch_read(lv_indev_t *indev, lv_indev_data_t *data)
     else
     {
         data->state = LV_INDEV_STATE_RELEASED;
+    }
+}
+
+void buttonCB(int btn)
+{
+    switch (btn)
+    {
+    case TOMATO_BTN:
+        buttons.tomato = true;
+        break;
+    case BARBEQUE_BTN:
+        buttons.barbeque = true;
+        break;
+    case MUSTARD_BTN:
+        buttons.mustard = true;
+        break;
+    case START_BTN:
+        buttons.start = true;
+        break;
+    default:
+        break;
     }
 }
